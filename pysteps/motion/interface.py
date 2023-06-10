@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 pysteps.motion.interface
 ========================
@@ -30,23 +29,24 @@ from pysteps.motion.darts import DARTS
 from pysteps.motion.lucaskanade import dense_lucaskanade
 from pysteps.motion.proesmans import proesmans
 from pysteps.motion.vet import vet
+from pysteps_mods.motion.farneback import farneback
 
 _methods = dict()
-_methods["constant"] = constant
-_methods["lk"] = dense_lucaskanade
-_methods["lucaskanade"] = dense_lucaskanade
-_methods["darts"] = DARTS
-_methods["proesmans"] = proesmans
-_methods["vet"] = vet
+_methods['constant'] = constant
+_methods['lk'] = dense_lucaskanade
+_methods['lucaskanade'] = dense_lucaskanade
+_methods['darts'] = DARTS
+_methods['proesmans'] = proesmans
+_methods['vet'] = vet
+_methods['farneback'] = farneback
 _methods[None] = lambda precip, *args, **kw: np.zeros(
     (2, precip.shape[1], precip.shape[2])
 )
 
 
 def get_method(name):
-    """
-    Return a callable function for the optical flow method corresponding to
-    the given name. The available options are:\n
+    """Return a callable function for the optical flow method corresponding to
+    the given name. The available options are:
 
     +--------------------------------------------------------------------------+
     | Python-based implementations                                             |
@@ -71,6 +71,9 @@ def get_method(name):
     |  vet              | implementation of the VET method of                  |
     |                   | Laroche and Zawadzki (1995) and                      |
     |                   | Germann and Zawadzki (2002)                          |
+    +-------------------+------------------------------------------------------+
+    |  farneback        | OpenCV implementation of the Farneback method which  |
+    |                   | is dense (vector at every pixel) by default.         |
     +-------------------+------------------------------------------------------+
 
     +--------------------------------------------------------------------------+
